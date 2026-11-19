@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { transactionPlan } from '../lib/plan.ts';
+import { transactionPlan } from '../lib/plan.js';
 
 interface JsonRequest extends IncomingMessage {
   body?: unknown;

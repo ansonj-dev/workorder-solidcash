@@ -1,7 +1,7 @@
 import { Contract, SignatureTemplate, TransactionBuilder } from '@solidcash/solidcash';
 import { MockNetworkProvider } from '@solidcash/solidcash/network/mock';
 import { decodeTransaction, hexToBin } from '@bitauth/libauth';
-import { contractTerms, transactionPlan } from './plan';
+import { contractTerms, transactionPlan } from './plan.js';
 
 // These public fixture scalars are never wallet secrets and never leave the local in-memory ledger.
 export async function localLifecycle() {

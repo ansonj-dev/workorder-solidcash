@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { localLifecycle } from '../lib/demo.ts';
+import { localLifecycle } from '../lib/demo.js';
 
 function sendJson(res: ServerResponse, status: number, value: unknown) {
   res.statusCode = status;
