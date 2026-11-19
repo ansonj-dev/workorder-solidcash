@@ -1,0 +1,11 @@
+diff --git a/packages/testing/src/builtin-tasks.ts b/packages/testing/src/builtin-tasks.ts
+--- a/packages/testing/src/builtin-tasks.ts
++++ b/packages/testing/src/builtin-tasks.ts
+@@ -562,4 +562,6 @@
+-    const res = spawnSync('npx', ['vitest', 'run', ...configArgs, ...extra], {
++    const vitest = path.resolve(path.dirname(createRequire(import.meta.url).resolve('vitest/package.json')), 'vitest.mjs');
++    const res = spawnSync(process.execPath, [vitest, 'run', ...configArgs, ...extra], {
+       stdio: 'inherit', env: { ...process.env, [TEST_NETWORK_ENV]: hre.network.name },
+     });
++    if (res.error) throw res.error;
+     if (res.status !== 0) process.exitCode = res.status ?? 1;

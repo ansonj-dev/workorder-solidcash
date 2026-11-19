@@ -1,0 +1,31 @@
+{
+  "name": "workorder-solidcash",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "solidhat:compile": "solidhat compile",
+    "order": "tsx scripts/order.ts",
+    "preview": "vite preview --host 127.0.0.1",
+    "solidhat:test": "solidhat test",
+    "node:check": "tsx scripts/node-check.ts",
+    "node:workorder-regtest": "tsx scripts/regtest-workorder.ts"
+  },
+  "dependencies": {
+    "@bitauth/libauth": "https://codeload.github.com/mainnet-pat/libauth/tar.gz/1cf4b432864b3a4ed9f33d1992355d7286f3dab8",
+    "@solidcash/solidc": "0.51.1",
+    "@solidcash/solidcash": "0.51.1",
+    "@solidcash/solidhat": "0.51.1",
+    "tsx": "4.20.3",
+    "vite": "6.4.1"
+  },
+  "overrides": {
+    "@bitauth/libauth": "https://codeload.github.com/mainnet-pat/libauth/tar.gz/1cf4b432864b3a4ed9f33d1992355d7286f3dab8"
+  },
+  "devDependencies": {
+    "@solidcash/testing": "0.51.1",
+    "vitest": "5.0.4"
+  }
+}

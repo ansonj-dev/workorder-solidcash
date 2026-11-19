@@ -1,0 +1,38 @@
+{
+  "mockOnly": true,
+  "toolchain": "SolidHat 0.51.1 / Vitest 5.0.4",
+  "measurements": [
+    {
+      "mockOnly": true,
+      "path": "approve",
+      "redeemScriptBytes": 431,
+      "transactionBytes": 658,
+      "unlockingBytes": 571,
+      "feeSats": "1800"
+    },
+    {
+      "mockOnly": true,
+      "path": "cancel",
+      "redeemScriptBytes": 431,
+      "transactionBytes": 658,
+      "unlockingBytes": 571,
+      "feeSats": "1800"
+    },
+    {
+      "mockOnly": true,
+      "path": "refund",
+      "redeemScriptBytes": 431,
+      "transactionBytes": 592,
+      "unlockingBytes": 505,
+      "feeSats": "1800"
+    },
+    {
+      "mockOnly": true,
+      "path": "resolve",
+      "redeemScriptBytes": 431,
+      "transactionBytes": 630,
+      "unlockingBytes": 509,
+      "feeSats": "1800"
+    }
+  ]
+}
