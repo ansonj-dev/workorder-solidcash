@@ -24,7 +24,7 @@ npm run solidhat:test
 
 The UI compiles the real WorkOrder contract from entered public keys and terms, derives its address, and generates a reviewable transaction plan. The plan contains the exact payout addresses, locking scripts, satoshis, signer roles, locktime, input sequence, redeem script hash and byte size. Download it as JSON. Changing terms clears the old plan. Prefilled public keys are publicly known examples: never fund a sample address.
 
-The browser calls the same local planning module as the CLI through `/api/plan`. Start with `npm run dev`, or run `npm run build` followed by `npm run preview`. The compiler endpoint is part of this local Vite configuration; uploading `dist/` alone to a static host will not provide planning. It performs no network lookup and accepts only public parameters. The planner has no private key fields or signing endpoint. It distinguishes an entered funding reference from a verified unspent output.
+The browser calls the same planning module as the CLI through /api/plan. Locally, npm run dev and npm run preview provide both /api/plan and /api/demo through Vite middleware. The Vercel deployment exposes these routes as Node.js Functions and includes the contract source needed by the planner. A static-only host still needs equivalent API routes. Planning performs no network lookup and accepts only public parameters. The planner has no private key fields or signing endpoint. It distinguishes an entered funding reference from a verified unspent output.
 
 For a plan from the CLI, set the public settings in `.env.example`, including `ORDER_SATS`, then run `npm run order -- plan approve` (or `plan cancel` / `plan refund` / `plan resolve`). `plan resolve` also needs `MAKER_SATS`. Optional `CURRENT_HEIGHT` is self-reported and never presented as chain verification. Plans can omit the funding transaction ID and index while reviewing terms; signed transaction preparation requires both. All amounts are integer satoshis encoded as decimal strings in JSON.
 
@@ -76,5 +76,3 @@ The lifecycle UI now includes a local VM runner for approval, cancellation, refu
 Current build details are in docs/CURRENT-STATUS.md. The contract now uses constants, shared order-policy/joint-consent modifiers and internal payout helpers. Its new cancel path returns the escrow to the client with both signatures before the timeout. This source change supersedes every earlier address and artifact.
 
 A read-only regtest acceptance checker is available as `npm run node:check -- <signed-regtest-transaction.hex>`. It verifies local chain identity and calls `testmempoolaccept`. A separate isolated run using the bundled BCHN 29.2.0 binaries is recorded in `docs/REGTEST-CHECK.md` and `docs/CURRENT-STATUS.md`. These are local regtest results only; they do not establish Chipnet or mainnet acceptance.
-
-
