@@ -2,6 +2,12 @@
 
 A small delivery escrow for independent makers, built with SolidCash and SolidHat for BCH BLAZE 2026.
 
+## Bounty readiness
+
+**Status: locally validated; the mainnet requirement remains unmet.** WorkOrder has four spend paths, SolidHat tests, a lifecycle planner/demo, and local BCHN regtest acceptance evidence. No Chipnet or mainnet transaction has been made. Regtest and mock-VM results are not public-chain evidence. The public source is at [github.com/ansonj-dev/workorder-solidcash](https://github.com/ansonj-dev/workorder-solidcash); independent contract review and a hosted demo are still outstanding, and the contract does not claim to use most SolidCash features.
+
+The [Best SolidCash Application bounty](https://bchblaze.com/bounties/best-solidcash-application/) asks for a Solidity contract that compiles natively to BCH and runs on mainnet, with SolidHat testing and a usable lifecycle demonstration. The sponsor also expects builders to report and contribute fixes for SolidCash findings. See the [criterion audit](docs/BOUNTY-AUDIT.md), [evidence ledger](docs/EVIDENCE.md), and [current status](docs/CURRENT-STATUS.md) for what is proven and what is still required. Do not use mainnet funds until the independent review and Chipnet lifecycle are complete and the exact transaction has been reviewed.
+
 WorkOrder reserves one plain BCH UTXO for a deliverable. It has four paths: client and maker jointly approve a payment to the maker; both parties may jointly cancel to the client immediately; the client refunds after an agreed block; or an agreed mediator signs a split between the two fixed payout scripts. The mediator can choose an allocation but cannot redirect the escrow to their own address. The UI makes the timeout and mediator trust explicit.
 
 ## Run
@@ -69,6 +75,6 @@ The lifecycle UI now includes a local VM runner for approval, cancellation, refu
 
 Current build details are in docs/CURRENT-STATUS.md. The contract now uses constants, shared order-policy/joint-consent modifiers and internal payout helpers. Its new cancel path returns the escrow to the client with both signatures before the timeout. This source change supersedes every earlier address and artifact.
 
-A read-only regtest acceptance checker is available as npm run node:check -- <signed-regtest-transaction.hex>. It verifies local chain identity and calls only testmempoolaccept; no node is installed on this machine and no real-node result is claimed. See docs/REGTEST-CHECK.md for the operator inputs and evidence steps.
+A read-only regtest acceptance checker is available as `npm run node:check -- <signed-regtest-transaction.hex>`. It verifies local chain identity and calls `testmempoolaccept`. A separate isolated run using the bundled BCHN 29.2.0 binaries is recorded in `docs/REGTEST-CHECK.md` and `docs/CURRENT-STATUS.md`. These are local regtest results only; they do not establish Chipnet or mainnet acceptance.
 
 

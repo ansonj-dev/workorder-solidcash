@@ -1,6 +1,6 @@
 # SolidCash bounty audit
 
-Checked 2026-11-19 against the complete SolidCash section of https://bchblaze.cash/bounties/ ("Best SolidCash Application", lines 273–300 in the retrieved page). Sponsor: mainnet_pat. Published awards: 2 / 1 / 0.5 BCH. The DoraHacks page could not be fetched by the web reader; the official BLAZE site is the source used here.
+Checked 2026-11-19 against the supplied [Best SolidCash Application bounty](https://bchblaze.com/bounties/best-solidcash-application/). Sponsor: mainnet_pat. Published awards: 2 / 1 / 0.5 BCH. The DoraHacks page could not be fetched by the web reader; the official BLAZE bounty page is the source used here.
 
 Current build status is summarized in `CURRENT-STATUS.md`. The command chronology below retains historical results; current code has four paths, 33 passing tests and a 432-byte default sample script.
 
@@ -37,7 +37,7 @@ Measurements are in `local-vm-measurements.json`. Fixture refund height is 1000,
 ## Manual gates
 
 1. Independent review of the contract, threat assumptions and synthetic test coverage.
-2. Optional repeat of the local BCHN regtest run, including chain-tip finality and standard transaction policy. Do not substitute mock success for this gate; the local run is documented, while live-network confirmation remains pending.
+2. Review the recorded BCHN 29.2.0 regtest run, including chain-tip finality and standard transaction policy. Repeat it if the contract or toolchain changes. This local run does not substitute for Chipnet evidence.
 3. Chipnet funding and three spend paths with separate dev wallets, retained artifact hashes, transaction IDs, raw bytes and explorer links. Never fund the public sample keys.
 4. Minimal mainnet lifecycle with owner-approved dev funds after the preceding gates; preserve proof. No mainnet execution has occurred.
 5. Review upstream findings, decide whether to submit a PR, and contact the sponsor only with explicit human authorization. No contribution or contact is being claimed.
@@ -46,5 +46,5 @@ Measurements are in `local-vm-measurements.json`. Fixture refund height is 1000,
 Final follow-up: after correcting the public plan sequence to match the SDK's encoded nonfinal sequence, npm run solidhat:test passed 20/20 at 05:25:12 UTC (4.70 seconds Vitest runtime). Added an assertion comparing plan locktime/sequence directly with the SDK serialization. The unmodified upstream launcher candidate passed git apply --check against the bundled upstream source; it remains unsubmitted and unapplied.
 
 
-Current follow-up validation: npm run solidhat:test passed 33/33 across two files at 07:25:00 UTC (9.20 seconds Vitest runtime). New coverage includes mutual cancellation, shared modifier policy and six injected-RPC boundary checks. npm run solidhat:compile compiled the modifier/helper contract successfully; npm run build passed (188 ms in the recorded run). The public-only cancellation plan command passed with a 432-byte default sample script and no broadcast. The local HTTP VM endpoint returned approve/cancel/refund/resolve with no chain broadcast. No BCHN or Docker command was found; no real-node result is claimed. Read REGTEST-CHECK.md for exact next inputs.
+Latest follow-up validation: `npm run solidhat:test` passed 33/33 across two files. New coverage includes mutual cancellation, shared modifier policy, and injected-RPC boundary checks. `npm run solidhat:compile` compiled the contract; `npm run build` passed. The local HTTP VM endpoint returned approve/cancel/refund/resolve with `chainBroadcast:false`. A later isolated BCHN 29.2.0 regtest run accepted approval, cancellation, mediator split, and a reached-height refund, and rejected adversarial spends. This updates the earlier historical note that no BCHN run had been performed. The regtest remains local evidence: no Chipnet or mainnet transaction was sent. See [CURRENT-STATUS.md](CURRENT-STATUS.md), [EVIDENCE.md](EVIDENCE.md), and [REGTEST-CHECK.md](REGTEST-CHECK.md) for the current scope and exact evidence.
 

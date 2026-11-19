@@ -1,6 +1,7 @@
 {
   "name": "workorder-solidcash",
   "version": "0.1.0",
+  "description": "SolidCash BCH escrow contract, planning UI, and local lifecycle demonstration.",
   "private": true,
   "type": "module",
   "scripts": {
