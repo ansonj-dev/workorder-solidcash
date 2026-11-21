@@ -32,7 +32,7 @@ Environment: Windows, Node v24.21.0; `@solidcash/solidhat`, `solidc`, `solidcash
 | `npm run solidhat:compile` | Pass; 1 Solidity source, 1 artifact (cache hit in final run). |
 | `Invoke-RestMethod -Method Post -Uri 'http://127.0.0.1:5185/api/demo'` | Local endpoint returned all three VM-accepted paths, zero remaining escrow outputs and the expected payouts. `chainBroadcast:false`, `mainnetExecuted:false`. |
 
-Measurements are in `local-vm-measurements.json`. Fixture refund height is 1000, producing a 372-byte redeem script; planner defaults use height 936500 and produce 373 bytes because Script integer encodings have different lengths. Neither size by itself proves node-level validity.
+Measurements are in `local-vm-measurements.json`. Fixture refund height 1000 produces a 431-byte redeem script; planner defaults use height 936500 and produce 432 bytes because Script integer encodings have different lengths. (Earlier entries in the chronology above cite smaller sizes from a superseded contract.) Neither size by itself proves node-level validity.
 
 ## Manual gates
 
