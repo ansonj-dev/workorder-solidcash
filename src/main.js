@@ -78,3 +78,55 @@ document.querySelector('#download').addEventListener('click',()=>{
  const url=URL.createObjectURL(new Blob([JSON.stringify(currentPlan,null,2)+'\n'],{type:'application/json'}));
  const link=document.createElement('a');link.href=url;link.download=`workorder-${currentPlan.network}-${currentPlan.action}-plan.json`;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 });
+
+// ---- Lifecycle overview, live terms summary, review checklist (UI only; no contract/plan logic) ----
+const lifecycle = document.createElement('div');
+lifecycle.className = 'lifecycle';
+lifecycle.setAttribute('role', 'group');
+lifecycle.setAttribute('aria-label', 'Escrow lifecycle');
+lifecycle.innerHTML = `<h3>How the escrow can end</h3>
+<div class="state-start"><span class="state-tag">1 / FUND</span><b>Client funds the contract</b><p>Plain BCH only. Tokens are rejected and may become stuck.</p></div>
+<ul class="state-list">
+<li><span class="state-tag">APPROVE</span><b>Client + maker sign</b><p>Maker receives the escrow minus the fee.</p></li>
+<li><span class="state-tag">CANCEL</span><b>Client + maker sign</b><p>Escrow returns to the client, no timeout needed.</p></li>
+<li><span class="state-tag">MEDIATOR SPLIT</span><b>Mediator signs</b><p>Fixed client and maker payouts. Each needs at least 546 sats.</p></li>
+<li><span class="state-tag">REFUND</span><b>Client signs after the refund block</b><p>Needs a locktime at or after the refund height.</p></li></ul>`;
+form.before(lifecycle);
+
+const summary = document.createElement('dl');
+summary.className = 'terms-summary';
+summary.setAttribute('aria-label', 'Current terms');
+form.querySelector('.term-grid').before(summary);
+const short = key => key && key.length > 20 ? `${key.slice(0, 10)}…${key.slice(-8)}` : key || 'not set';
+const renderSummary = () => {
+ const f = Object.fromEntries(new FormData(form));
+ summary.replaceChildren();
+ for (const [label, value] of [['Client key', short(f.client)], ['Maker key', short(f.maker)], ['Mediator key', short(f.mediator)], ['Fee cap', `${f.feeCap || '–'} sats`], ['Refund block', f.refundHeight || '–']]) {
+  const box = document.createElement('div'), dt = document.createElement('dt'), dd = document.createElement('dd');
+  dt.textContent = label; dd.textContent = value; box.append(dt, dd); summary.append(box);
+ }
+};
+form.addEventListener('input', renderSummary); renderSummary();
+
+const review = document.querySelector('#review');
+const download = document.querySelector('#download');
+const checklist = document.createElement('fieldset');
+checklist.className = 'checklist';
+checklist.innerHTML = '<legend>Before you sign</legend>' + [
+ 'The contract address matches the one my counterparties derived independently.',
+ 'Every output address and amount is what we agreed, and the fee is within the cap.',
+ 'The funding transaction ID and output index are the exact plain-BCH UTXO.',
+ 'I will sign with my own tools. This planner has no signing or broadcast.',
+].map((text, i) => `<label class="check"><input type="checkbox" data-check="${i}"> <span>${text}</span></label>`).join('');
+review.querySelector('.review-heading').after(checklist);
+const syncDownload = () => { download.disabled = ![...checklist.querySelectorAll('input')].every(box => box.checked); };
+checklist.addEventListener('change', syncDownload);
+new MutationObserver(() => { if (review.hidden) { checklist.querySelectorAll('input').forEach(box => { box.checked = false; }); syncDownload(); } }).observe(review, { attributes: true, attributeFilter: ['hidden'] });
+syncDownload();
+download.title = 'Tick every review item to enable export';
+result.setAttribute('aria-live', 'polite');
+
+const status = document.createElement('p');
+status.className = 'status-line';
+status.textContent = 'Status: local VM and regtest checks only. Chipnet lifecycle, BCH mainnet run and independent contract review are pending.';
+document.querySelector('footer').before(status);
